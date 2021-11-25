@@ -1,0 +1,17 @@
+# The following is added to the sensors file on my Home Assistant Implementation. 
+
+  - platform: template
+    sensors:
+      water_pump_status:
+        value_template: >-
+          {% if is_state('binary_sensor.water_pump_status', 'off') %}
+             Pump Operational
+          {% else %}
+            Pump Not Functioning
+          {% endif %}
+        icon_template: >
+          {% if is_state('binary_sensor.water_pump_status', 'off') %}
+             mdi:water-pump
+          {% else %}
+            mdi:water-pump-off
+          {% endif %}
