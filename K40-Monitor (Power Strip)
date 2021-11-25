@@ -1,0 +1,25 @@
+# This is the the lovelace code used to add the components of my laser to an easy panel in HA. 
+# All of my components are individually connected to a socket on a TP-Link Smart Powerstrip.
+
+      - type: glance
+        title:
+        columns: 2
+        entities:
+            - entity: sensor.laser_coolant_temperature
+              name: Laser Coolant Temp
+            - entity: sensor.water_pump_status
+              name: Laser Cooling Pump Status
+      - type: glance
+        title:
+        columns: 4
+        entities:
+           - entity: group.laserall
+             name: Laser Group
+           - entity: switch.laser_exhaust_fan
+             name: Exhaust
+           - entity: switch.laser_k40
+             name: K40 Laser
+           - entity: switch.laser_water_pump
+             name: Cooling Pump
+
+
