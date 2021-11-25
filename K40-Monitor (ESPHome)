@@ -1,0 +1,63 @@
+esphome:
+  name: k40
+  platform: ESP32
+  board: esp32dev
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+
+ota:
+  password: "SECUREPASSWORD"
+
+wifi:
+  ssid: "MY_SSID"
+  password: "SECUREPASSWORD"
+  domain: .xxx
+  use_address: 10.10.10.221
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "K40 Fallback Hotspot"
+    password: "SECRETPASSWORD"
+
+captive_portal:
+      
+spi:
+  miso_pin: GPIO19
+  clk_pin: GPIO18
+  
+sensor:
+  - platform: max6675
+    name: "Laser Coolant Temperature"
+    cs_pin: GPIO5
+    update_interval: 15s
+    id: laser_cool
+    
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO15
+      mode: INPUT_PULLUP
+    device_class: power
+    id: water_flow
+    name: "Water Pump Status"
+
+
+i2c:
+  sda: GPIO21
+  scl: GPIO22
+  
+display:
+  - platform: lcd_pcf8574
+    dimensions: 16x2
+    address: 0x3F
+    lambda: |-
+      it.printf("H2O Temp: %.1f", id(laser_cool).state);
+      if (id(water_flow).state) {
+          it.printf(0,1, "H2O Pump Off");
+      } else {
+          it.printf(0,1, "H2O Pump On");
+      }
